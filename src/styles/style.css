@@ -1,0 +1,116 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 200px;
+}
+
+#weather-form {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  gap: 10px;
+}
+
+#city-input {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+  width: 500px;
+}
+
+#city-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+#weather-form button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#weather-form button:hover {
+  background-color: #0056b3;
+}
+
+#current-weather-card {
+  width: 800px;
+  padding: 30px;
+  border-radius: 12px;
+  background: #f8f9fa;
+}
+
+#current-weather-card .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8rem;
+}
+
+.card-body {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.body-item {
+  display: flex;
+}
+
+.temperature-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 40px 0;
+}
+
+.main-temp {
+  display: flex;
+  align-items: flex-start;
+  line-height: 0.8;
+  margin-bottom: 5px;
+}
+
+.temp-number {
+  font-size: 5rem; /* Very large - adjust as needed */
+  font-weight: 900; /* Extra bold/black */
+  color: #000;
+  letter-spacing: -2px; /* Tighter spacing */
+}
+
+.temp-unit {
+  font-size: 2.5rem; /* Medium size for degree symbol */
+  font-weight: 300; /* Light weight */
+  color: #000;
+  margin-left: 2px;
+  margin-top: -5px; /* Align with top of number */
+}
+
+.weather-icon {
+  width: 150px; /* Set width */
+  height: 150px; /* Set height */
+}

@@ -1,6 +1,6 @@
 import "./styles/style.css";
 import { getWeather, getCurrentWeather, getForecast } from "./api/weather.js";
-import { createForm } from "./dom/render.js";
+import { createForm, renderCurrentWeather } from "./dom/render.js";
 
 createForm();
 
@@ -18,6 +18,8 @@ form.addEventListener("submit", (e) => {
       const foreCast = getForecast(data);
       console.log(current);
       console.log(foreCast);
+
+      renderCurrentWeather(current);
     })
     .catch((error) => {
       console.error("Something went wrong:", error);

@@ -15,6 +15,10 @@ module.exports = {
         test: /\.css$/i, // Match any .css file
         use: ["style-loader", "css-loader"], // Loaders to handle CSS
       },
+      {
+        test: /\.svg$/i,
+        type: "asset/resource",
+      },
     ],
   },
   plugins: [

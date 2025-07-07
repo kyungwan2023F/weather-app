@@ -8,6 +8,9 @@ export async function getWeather(location) {
   );
   const data = await response.json();
   console.log(data);
+  data.days?.forEach((day, index) => {
+    console.log(`Day ${index} icon:`, day.icon);
+  });
   return data;
 }
 
@@ -15,8 +18,9 @@ export function getCurrentWeather(data) {
   const currentConditions = data.currentConditions;
 
   return {
+    address: data.address,
     conditions: currentConditions.conditions,
-    dateTime: currentConditions.datetime,
+    dateTimeEpoch: currentConditions.datetimeEpoch,
     feelsLike: currentConditions.feelslike,
     humidity: currentConditions.humidity,
     icon: currentConditions.icon,
@@ -27,8 +31,9 @@ export function getCurrentWeather(data) {
 
 export function getForecast(data) {
   const foreCast = data.days.map((day) => ({
+    address: day.address,
     conditions: day.conditions,
-    dateTime: day.datetime,
+    dateTimeEpoch: day.datetimeEpoch,
     feelsLike: day.feelslike,
     humidity: day.humidity,
     icon: day.icon,
