@@ -31,7 +31,6 @@ export function getCurrentWeather(data) {
 
 export function getForecast(data) {
   const foreCast = data.days.map((day) => ({
-    address: day.address,
     conditions: day.conditions,
     dateTimeEpoch: day.datetimeEpoch,
     feelsLike: day.feelslike,

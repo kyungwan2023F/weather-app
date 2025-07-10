@@ -94,12 +94,103 @@ export async function renderCurrentWeather(currentData) {
   content.appendChild(currentDiv);
 }
 
-function renderDate(currentData, container) {
-  const rawDate = currentData.dateTimeEpoch;
-  const dateObj = new Date(rawDate * 1000);
+export async function renderForecast(foreCast) {
+  let foreCastDiv = document.getElementById("forecast-weather-card");
+  if (!foreCastDiv) {
+    foreCastDiv = document.createElement("div");
+    foreCastDiv.id = "forecast-weather-card";
+  } else {
+    foreCastDiv.innerHTML = "";
+  }
 
-  const date = document.createElement("p");
-  date.id = "sub";
+  const processedForecast = foreCast.map(
+    ({
+      conditions,
+      dateTimeEpoch,
+      feelsLike,
+      humidity,
+      icon,
+      precipitation,
+      temp,
+    }) => {
+      return {
+        date: dateTransformer(dateTimeEpoch),
+        conditions: conditions,
+        icon: icon,
+        temperature: temp,
+        feelsLike: feelsLike,
+        humidity: humidity,
+        precipitation: precipitation,
+      };
+    },
+  );
+
+  const foreCastHeader = document.createElement("h2");
+  foreCastHeader.id = "forecast-header";
+  foreCastHeader.textContent = "15-Day Weather Forecast";
+
+  foreCastDiv.appendChild(foreCastHeader);
+
+  const foreCastBody = document.createElement("div");
+  foreCastBody.id = "forecast-body";
+
+  for (const day of processedForecast) {
+    const foreCastItem = document.createElement("div");
+    foreCastItem.classList.add("forecast-item");
+
+    const date = document.createElement("div");
+    date.classList.add("date");
+    date.textContent = day.date;
+
+    const conditions = document.createElement("div");
+    conditions.classList.add("conditions");
+    conditions.textContent = day.conditions;
+
+    const iconContainer = document.createElement("div");
+
+    // Wait for icon to load before continuing
+    const iconModule = await getWeatherIcon(day.icon);
+    appendSVGAsImage(iconModule, iconContainer);
+
+    // Create temperature section
+    const temperature = document.createElement("div");
+    temperature.classList.add("temperature");
+    temperature.textContent = `${day.temperature}°F`;
+
+    // Create feels like section
+    const feelsLike = document.createElement("div");
+    feelsLike.classList.add("feels-like");
+    feelsLike.textContent = `Feels like ${day.feelsLike}°F`;
+
+    // Create humidity section
+    const humidity = document.createElement("div");
+    humidity.classList.add("humidity");
+    humidity.textContent = `Humidity: ${day.humidity}%`;
+
+    // Create precipitation section
+    const precipitation = document.createElement("div");
+    precipitation.classList.add("precipitation");
+    precipitation.textContent = `Precipitation: ${day.precipitation || "No rain"}`;
+
+    // Append all elements to forecast item
+    foreCastItem.appendChild(date);
+    foreCastItem.appendChild(iconContainer);
+    foreCastItem.appendChild(conditions);
+    foreCastItem.appendChild(temperature);
+    foreCastItem.appendChild(feelsLike);
+    foreCastItem.appendChild(humidity);
+    foreCastItem.appendChild(precipitation);
+
+    // Append forecast item to forecast body
+    foreCastBody.appendChild(foreCastItem);
+  }
+
+  foreCastDiv.appendChild(foreCastBody);
+  content.appendChild(foreCastDiv);
+}
+
+function dateTransformer(dateTimeEpoch) {
+  const dateObj = new Date(dateTimeEpoch * 1000);
 
   // Helper function for ordinal suffix
   function getOrdinalSuffix(n) {
@@ -125,10 +216,20 @@ function renderDate(currentData, container) {
   });
 
   // Replace day with ordinal day
-  date.textContent = formattedDate.replace(
+  return formattedDate.replace(
     day.toString(),
     `${day}${getOrdinalSuffix(day)}`,
   );
+}
+
+function renderDate(currentData, container) {
+  const rawDate = currentData.dateTimeEpoch;
+
+  const date = document.createElement("p");
+  date.id = "sub";
+
+  // Replace day with ordinal day
+  date.textContent = dateTransformer(rawDate);
 
   container.appendChild(date);
 }

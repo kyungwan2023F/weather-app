@@ -79,6 +79,12 @@ body {
 
 .body-item {
   display: flex;
+  border-bottom: 1px solid #ccc; /* Thin gray line */
+  padding-bottom: 2px;
+}
+
+.body-item:last-child {
+  border-bottom: none;
 }
 
 .temperature-container {
@@ -113,4 +119,8 @@ body {
 .weather-icon {
   width: 150px; /* Set width */
   height: 150px; /* Set height */
+}
+
+.forecast-item {
+  display: flex;
 }
