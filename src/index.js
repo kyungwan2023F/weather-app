@@ -11,22 +11,21 @@ createForm();
 const form = document.getElementById("weather-form");
 const input = document.getElementById("city-input");
 
-form.addEventListener("submit", (e) => {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
   console.clear();
 
   const city = input.value.trim();
-  getWeather(city)
-    .then((data) => {
-      const current = getCurrentWeather(data);
-      const foreCast = getForecast(data);
-      console.log(current);
-      console.log(foreCast);
+  try {
+    const data = await getWeather(city);
+    const current = getCurrentWeather(data);
+    const foreCast = getForecast(data);
+    console.log(current);
+    console.log(foreCast);
 
-      renderCurrentWeather(current);
-      renderForecast(foreCast);
-    })
-    .catch((error) => {
-      console.error("Something went wrong:", error);
-    });
+    await renderCurrentWeather(current);
+    await renderForecast(foreCast);
+  } catch (error) {
+    console.error("Something went wrong:", error);
+  }
 });
